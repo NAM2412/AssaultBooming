@@ -2,41 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AssaultBooming.Grid
+public class GridSystem
 {
-    public class GridSystem
+    private int width;
+    private int height;
+    private float cellSize;
+    private GridObject[,] gridObjectsArray;
+
+    public GridSystem(int width, int height, float cellSize)
     {
-        private int width;
-        private int height;
-        private float cellSize;
+        this.width = width;
+        this.height = height;
+        this.cellSize = cellSize;
 
-        public GridSystem(int _width, int _height, float _cellSize)
+        gridObjectsArray = new GridObject[width, height];
+
+        for (int x = 0; x < width; x++)
         {
-            this.width = _width;
-            this.height = _height;
-            this.cellSize = _cellSize;
-
-            for (int x = 0; x < _width; x++)
+            for (int z = 0; z < height; z++)
             {
-                for (int z = 0; z < _height; z++)
-                {
-                    Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z) + Vector3.right * 0.2f, Color.white, 1000);
-                }
+                GridPosition gridPosition = new GridPosition(x, z);
+                gridObjectsArray[x, z] = new GridObject(this, gridPosition);
             }
         }
+    }
 
-        public Vector3 GetWorldPosition(int x, int z)
-        {
-            return new Vector3(x, 0, z) * cellSize;
-        }
+    public Vector3 GetWorldPosition(GridPosition gridPosition)
+    {
+        return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
+    }
 
-        public GridPosition GetGridPosition(Vector3 worldPosition)
+    public GridPosition GetGridPosition(Vector3 worldPosition)
+    {
+        return new GridPosition(
+            Mathf.RoundToInt(worldPosition.x / cellSize),
+            Mathf.RoundToInt(worldPosition.z / cellSize)
+        );
+    }
+
+    public void CreateDebugObjects(Transform debugPrefab)
+    {
+        for (int x = 0; x < width; x++)
         {
-            return new GridPosition(
-                Mathf.RoundToInt(worldPosition.x / cellSize),
-                Mathf.RoundToInt(worldPosition.z / cellSize)
-            );
+            for (int z = 0; z < height; z++)
+            {
+                GridPosition gridPosition = new GridPosition(x, z);
+                Transform transform = GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+                GridDebugObject gridDebugObject = transform.GetComponent<GridDebugObject>();
+                gridDebugObject.SetGridObject(GetGridObject(gridPosition));
+            }
         }
     }
+
+    public GridObject GetGridObject(GridPosition gridPosition)
+    {
+        return gridObjectsArray[gridPosition.x, gridPosition.z];
+    }
 }
+
 
