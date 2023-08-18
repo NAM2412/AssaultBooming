@@ -5,10 +5,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private GridPosition gridPosition;
-
+    private MoveAction moveAction;
     private void Awake()
     {
-        targetPosition = transform.position;
+        moveAction = GetComponent<MoveAction>();
     }
     private void Start()
     {
@@ -24,9 +24,16 @@ public class Unit : MonoBehaviour
             gridPosition = newGridPosition;
         }
     }
-    public void Move(Vector3 targetPosition)
+
+    public MoveAction GetMoveAction()
     {
-        this.targetPosition = targetPosition;
+        return moveAction;
     }
+
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
+    }
+    
 }
 

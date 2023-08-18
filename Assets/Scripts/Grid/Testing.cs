@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Testing : MonoBehaviour
 {
-    private void Start()
-    {
-        
-    }
+    [SerializeField] Unit unit;
+
     private void Update()
     {
-        
+        if(Input.GetKey(KeyCode.T))
+        {
+            unit.GetMoveAction().GetValidActionGridPositionList();
+        }
     }
 }
