@@ -21,13 +21,14 @@ public class UnitActionSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
         UnitActionSystem.Instance.OnSelectedActionChange += UnitActionSystem_OnSelectedActionChange;
         UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        Unit.OnAnyActionChanged += Unit_OnAnyActionChanged;
 
         UpdateActionPoint();
         CreateUnitActionButton();
         UpdateSelectedVisual();
     }
 
-    
 
     private void CreateUnitActionButton()
     {
@@ -50,23 +51,6 @@ public class UnitActionSystemUI : MonoBehaviour
         }    
     }
 
-    public void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
-    {
-        CreateUnitActionButton();
-        UpdateSelectedVisual();
-        UpdateActionPoint();
-    }
-
-    private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
-    {
-        UpdateActionPoint();
-    }
-
-    private void UnitActionSystem_OnSelectedActionChange(object sender, EventArgs e)
-    {
-        UpdateSelectedVisual();
-    }
-
     private void UpdateSelectedVisual()
     {
         foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
@@ -81,5 +65,34 @@ public class UnitActionSystemUI : MonoBehaviour
 
         actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
     }
+
+    #region Event Handler
+    public void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
+    {
+        CreateUnitActionButton();
+        UpdateSelectedVisual();
+        UpdateActionPoint();
+    }
+
+    private void Unit_OnAnyActionChanged(object sender, EventArgs e)
+    {
+        UpdateActionPoint();
+    }
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        UpdateActionPoint();
+    }
+
+    private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
+    {
+        UpdateActionPoint();
+    }
+
+    private void UnitActionSystem_OnSelectedActionChange(object sender, EventArgs e)
+    {
+        UpdateSelectedVisual();
+    }
+
+    #endregion
 
 }
