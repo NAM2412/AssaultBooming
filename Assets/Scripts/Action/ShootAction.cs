@@ -17,6 +17,9 @@ public class ShootAction : BaseAction
     private Unit targetUnit;
     private bool canShoot;
 
+
+    public event EventHandler OnShoot;
+
     private void Update()
     {
         if (!isActive) return;
@@ -52,6 +55,7 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnShoot?.Invoke(this, EventArgs.Empty);
         targetUnit.Damage();
     }
 
