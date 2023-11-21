@@ -72,8 +72,7 @@ public class ShootAction : BaseAction
                 break;
 
             case State.Cooloff:
-                isActive = false;
-                onActionComplete();
+                ActionComplete();
                 break;
         }
 

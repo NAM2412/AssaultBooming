@@ -17,8 +17,7 @@ public class SpinAction : BaseAction
 
         if (totalSpinAmount > 360f)
         {
-            isActive = false;
-            onActionComplete();
+            ActionComplete();
         }
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // Spin the unit
