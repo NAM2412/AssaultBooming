@@ -41,6 +41,11 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
 
+        if (!TurnSystem.Instance.IsOnPlayerTurn())
+        {
+            return;
+        }
+
         if (EventSystem.current.IsPointerOverGameObject()) /* if mouse is on the button UI,
                                                            unit won't move when button is overlay the grid object*/
         {
@@ -99,6 +104,12 @@ public class UnitActionSystem : MonoBehaviour
                 {
                     if (unit == selectedUnit) // unit is already selected
                     {
+                        return false;
+                    }
+
+                    if (unit.IsEnemy())
+                    {
+                        // click on an Enemy
                         return false;
                     }
                     SetSelectedUnit(unit);

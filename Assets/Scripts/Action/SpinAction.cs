@@ -23,8 +23,7 @@ public class SpinAction : BaseAction
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // Spin the unit
     {
-        this.onActionComplete = onActionComplete;
-        isActive = true;
+        ActionStart(onActionComplete);
         totalSpinAmount = 0f;
     }
 
