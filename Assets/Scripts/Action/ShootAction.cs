@@ -17,8 +17,14 @@ public class ShootAction : BaseAction
     private Unit targetUnit;
     private bool canShoot;
 
+    public class OnShootEventArgs : EventArgs
+    {
+        public Unit targetUnit;
+        public Unit shootingUnit;
+    }
 
-    public event EventHandler OnShoot;
+
+    public event EventHandler<OnShootEventArgs> OnShoot;
 
     private void Update()
     {
@@ -55,7 +61,11 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
-        OnShoot?.Invoke(this, EventArgs.Empty);
+        OnShoot?.Invoke(this, new OnShootEventArgs{
+            targetUnit = targetUnit,
+            shootingUnit = unit,
+        });
+
         targetUnit.Damage();
     }
 
@@ -141,3 +151,5 @@ public class ShootAction : BaseAction
         canShoot = true;
     }
 }
+
+
