@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class LevelGrid : MonoBehaviour
 {
     public static LevelGrid Instance { get; private set; }
+    public event EventHandler OnAnyUnitMoveGridPosition;
 
     [SerializeField] Transform gridDebugObjectPrefabs;
     [SerializeField] int gridWidth = 10;
@@ -25,6 +28,8 @@ public class LevelGrid : MonoBehaviour
         gridSystem = new GridSystem(gridWidth, gridHeight, cellSize);
         gridSystem.CreateDebugObjects(gridDebugObjectPrefabs);
     }
+
+    #region Unit's method at grid position
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
@@ -47,8 +52,14 @@ public class LevelGrid : MonoBehaviour
     public void UnitMovedGridPosition(Unit unit, GridPosition fromGridPosition, GridPosition toGridPosition)
     {
         RemoveUnitAtGridPosition(fromGridPosition, unit);
+
         AddUnitAtGridPosition(toGridPosition, unit);
+
+        OnAnyUnitMoveGridPosition?.Invoke(this, EventArgs.Empty);
     }
+    #endregion
+
+    #region Position, height, width
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
     public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
@@ -56,6 +67,9 @@ public class LevelGrid : MonoBehaviour
 
     public int GetWidth() => gridSystem.GetWidth();
     public int GetHeight() => gridSystem.GetHeight();
+    #endregion
+
+    #region check and get unit
     public bool HasAnyUnitOnGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
@@ -67,6 +81,7 @@ public class LevelGrid : MonoBehaviour
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.GetUnit();
     }
+    #endregion
 
 
 }
