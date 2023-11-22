@@ -6,20 +6,21 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private const int ACTION_POINTS_MAX = 2;
-
-    public static event EventHandler OnAnyActionChanged;
-
-
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private HealthSystem healthSystem; 
     private int actionPoints = ACTION_POINTS_MAX;
-
     private BaseAction[] baseActionArray;
 
     [SerializeField] private bool isEnemy;
+
+    public static event EventHandler OnAnyActionChanged;
+
+    #region Monobehaviour
     private void Awake()
     {
+        healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
@@ -30,7 +31,10 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+
+        healthSystem.OnDead += HealthSystem_OnDead;
     }
+
     private void Update()
     {
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
@@ -40,6 +44,28 @@ public class Unit : MonoBehaviour
             gridPosition = newGridPosition;
         }
     }
+    #endregion
+
+    #region Unity event
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if ((IsEnemy() && !TurnSystem.Instance.IsOnPlayerTurn())
+                                    || (!IsEnemy() && TurnSystem.Instance.IsOnPlayerTurn()))
+        {
+            actionPoints = ACTION_POINTS_MAX;
+
+            OnAnyActionChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    private void HealthSystem_OnDead(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        Destroy(gameObject);
+    }
+    #endregion
+
+    #region Action method
 
     public MoveAction GetMoveAction()
     {
@@ -51,6 +77,13 @@ public class Unit : MonoBehaviour
         return spinAction;
     }
 
+    public BaseAction[] GetBaseActionArray()
+    {
+        return baseActionArray;
+    }
+    #endregion
+
+    #region Grid and World
     public GridPosition GetGridPosition()
     {
         return gridPosition;
@@ -61,11 +94,15 @@ public class Unit : MonoBehaviour
         return transform.position;
     }
 
-    public BaseAction[] GetBaseActionArray()
+    #endregion
+
+    #region ActionPoint Consume
+    private void SpendActionPoints(int amount)
     {
-        return  baseActionArray;
+        actionPoints -= amount;
+
+        OnAnyActionChanged?.Invoke(this, EventArgs.Empty);
     }
-    
     public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
     {
         if (CanSpendActionPointToTakeBaseAction(baseAction))
@@ -79,38 +116,24 @@ public class Unit : MonoBehaviour
     {
         return actionPoints >= baseAction.GetActionPointsCost();
     }
-    private void SpendActionPoints(int amount)
-    {
-        actionPoints -= amount;
-
-        OnAnyActionChanged?.Invoke(this, EventArgs.Empty);
-    }
 
     public int GetActionPoints()
-    { 
-        return actionPoints; 
-    }
-
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        if ((IsEnemy() && !TurnSystem.Instance.IsOnPlayerTurn())
-                                    || (!IsEnemy() && TurnSystem.Instance.IsOnPlayerTurn()))
-        {
-            actionPoints = ACTION_POINTS_MAX;
-
-            OnAnyActionChanged?.Invoke(this, EventArgs.Empty);
-        }
+        return actionPoints;
     }
+    #endregion
+
 
     public bool IsEnemy()
     {
         return isEnemy;
     }
 
-    public void Damage()
+    public void Damage(int damageAmount)
     {
-        Debug.Log(transform + "damage");
+        healthSystem.Damage(damageAmount);
     }
+
 
 
 }

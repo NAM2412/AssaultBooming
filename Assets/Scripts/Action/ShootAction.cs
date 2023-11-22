@@ -16,6 +16,7 @@ public class ShootAction : BaseAction
     private float stateTimer;
     private Unit targetUnit;
     private bool canShoot;
+    private int bulletDamage = 40;
 
     public class OnShootEventArgs : EventArgs
     {
@@ -66,7 +67,7 @@ public class ShootAction : BaseAction
             shootingUnit = unit,
         });
 
-        targetUnit.Damage();
+        targetUnit.Damage(bulletDamage);
     }
 
     private void NextState()
