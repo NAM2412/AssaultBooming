@@ -11,11 +11,7 @@ public class MoveAction : BaseAction
 
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
-    protected override void Awake()
-    {
-        base.Awake();
-        targetPosition = transform.position;
-    }
+   
 
     void Update()
     {
@@ -40,6 +36,13 @@ public class MoveAction : BaseAction
 
         float rotateSpeed = 10f;
         transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+    }
+
+    #region Override method
+    protected override void Awake()
+    {
+        base.Awake();
+        targetPosition = transform.position;
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // move the unit
     {
@@ -86,4 +89,16 @@ public class MoveAction : BaseAction
     {
         return "Move";
     }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int targetCountAtGridPosition = unit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetCountAtGridPosition * 10,
+        };
+    }
+
+    #endregion
 }

@@ -93,15 +93,20 @@ public class ShootAction : BaseAction
 
     }
 
-    public override string GetActionName()
+    #region Get Methods
+    public Unit GetTargetUnit()
     {
-        return "Shoot";
+        return targetUnit;
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList()
+    public int GetMaxShootDistance()
+    {
+        return maxShootDistance;
+    }
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
-        GridPosition unitGridPosition = unit.GetGridPosition();
+
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
             for (int z = -maxShootDistance; z <= maxShootDistance; z++)
@@ -138,7 +143,22 @@ public class ShootAction : BaseAction
         }
         return validGridPositionList;
     }
+    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList(gridPosition).Count;
+    }
+    #endregion
 
+    #region Override method
+    public override string GetActionName()
+    {
+        return "Shoot";
+    }
+    public override List<GridPosition> GetValidActionGridPositionList()
+    {
+        GridPosition unitGridPosition = unit.GetGridPosition();
+        return GetValidActionGridPositionList(unitGridPosition);
+    }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
 
@@ -152,16 +172,18 @@ public class ShootAction : BaseAction
 
         ActionStart(onActionComplete);
     }
-
-    public Unit GetTargetUnit()
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return targetUnit;
-    }
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-    public int GetMaxShootDistance()
-    {
-        return maxShootDistance;
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1-targetUnit.GetHealthNormalized()) * 100f),
+        };
     }
+    #endregion
+
 }
 
 
