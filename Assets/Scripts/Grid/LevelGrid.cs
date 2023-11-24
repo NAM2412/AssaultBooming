@@ -28,7 +28,7 @@ public class LevelGrid : MonoBehaviour
         gridSystem = new GridSystem<GridObject>(gridWidth, gridHeight, cellSize, 
                                                            (GridSystem<GridObject> g, GridPosition gridPosition) 
                                                             => new GridObject(g, gridPosition));
-        gridSystem.CreateDebugObjects(gridDebugObjectPrefabs);
+        //gridSystem.CreateDebugObjects(gridDebugObjectPrefabs);
     }
 
     #region Unit's method at grid position
