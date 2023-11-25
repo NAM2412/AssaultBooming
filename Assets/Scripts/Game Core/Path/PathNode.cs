@@ -10,6 +10,8 @@ public class PathNode
     private int fCost;
     private PathNode cameFromPathNode;
 
+    private bool isWalkable = true;
+
     public PathNode(GridPosition gridPosition)
     {
         this.gridPosition = gridPosition;
@@ -19,6 +21,8 @@ public class PathNode
     {
         return gridPosition.ToString();
     }
+    #region Get && Set methods
+    #region Get mothods
 
     public int GetGCost()
     {
@@ -33,7 +37,9 @@ public class PathNode
     {
         return fCost;
     }
+    #endregion
 
+    #region Set methods
     public void SetGCost(int gCost)
     {
         this.gCost = gCost;
@@ -43,7 +49,10 @@ public class PathNode
     {
         this.hCost = hCost;
     }
+    #endregion
+    #endregion
 
+    #region Pathnode methods
     public void CalculateFCost()
     {
         fCost = gCost + hCost;
@@ -63,10 +72,19 @@ public class PathNode
     {
         return cameFromPathNode;
     }
-
+    #endregion
     public GridPosition GetGridPosition()
     {
         return gridPosition;
     }
 
+    public bool IsWalkable()
+    {
+        return isWalkable;
+    }
+
+    public void SetIsWalkable(bool isWalkable)
+    {
+        this.isWalkable = isWalkable; 
+    }
 }

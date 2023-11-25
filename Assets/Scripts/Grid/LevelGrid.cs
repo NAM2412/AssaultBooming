@@ -15,6 +15,8 @@ public class LevelGrid : MonoBehaviour
     [SerializeField] float cellSize = 2f;
 
     private GridSystem<GridObject> gridSystem;
+
+    #region Monobehaviour
     private void Awake()
     {
         if (Instance != null)
@@ -30,6 +32,12 @@ public class LevelGrid : MonoBehaviour
                                                             => new GridObject(g, gridPosition));
         //gridSystem.CreateDebugObjects(gridDebugObjectPrefabs);
     }
+
+    private void Start()
+    {
+        Pathfinding.Instance.Setup(gridWidth, gridHeight, cellSize);
+    }
+    #endregion
 
     #region Unit's method at grid position
 
