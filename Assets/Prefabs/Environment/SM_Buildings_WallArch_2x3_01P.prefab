@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4346191484605548770}
   - component: {fileID: 4355851480366938196}
   - component: {fileID: 4378235592165167728}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Buildings_WallArch_2x3_01P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MeshCollider:
   m_GameObject: {fileID: 4333444820501528106}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

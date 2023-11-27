@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2509723554955882826, guid: 0c5f0f36408571a41bf93649730a34c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2534793507959665588, guid: 0c5f0f36408571a41bf93649730a34c9, type: 3}
       propertyPath: m_Mesh
       value: 

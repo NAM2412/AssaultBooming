@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 53277939541447316}
   - component: {fileID: 44628953665918388}
   - component: {fileID: 12561509790597560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Buildings_Column_2x3_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

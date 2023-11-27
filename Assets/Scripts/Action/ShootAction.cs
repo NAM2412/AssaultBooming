@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    [SerializeField] private LayerMask obstaclesLayerMask;
     private enum State
     {
         Aiming,
@@ -135,6 +136,20 @@ public class ShootAction : BaseAction
                 if (targetUnit.IsEnemy() == unit.IsEnemy())
                 {
                     // Both unit are on same "Team"
+                    continue;
+                }
+
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+
+                float unitShoulderHeight = 1.7f;
+                if (Physics.Raycast(
+                        unitWorldPosition + Vector3.up*unitShoulderHeight,
+                        shootDir,
+                        Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                        obstaclesLayerMask))
+                {
+                    //block by an obstacle
                     continue;
                 }
 

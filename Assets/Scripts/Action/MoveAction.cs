@@ -7,7 +7,8 @@ public class MoveAction : BaseAction
 {
     [SerializeField] int maxMoveDistance = 4;
 
-    private Vector3 targetPosition;
+    private List<Vector3> positionList;
+    private int currentPositionIndex;
 
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
@@ -20,7 +21,12 @@ public class MoveAction : BaseAction
             return;
         }
 
+        Vector3 targetPosition = positionList[currentPositionIndex];
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
         float stoppingDistance = 0.1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {       
@@ -29,24 +35,28 @@ public class MoveAction : BaseAction
         }
         else
         {
-            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            currentPositionIndex++;
+            if (currentPositionIndex >= positionList.Count)
+            {
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
 
-            ActionComplete();
+                ActionComplete();
+            }
+
         }
-
-        float rotateSpeed = 10f;
-        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
     }
 
     #region Override method
-    protected override void Awake()
-    {
-        base.Awake();
-        targetPosition = transform.position;
-    }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete) // move the unit
     {
-        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
+        currentPositionIndex = 0;
+        positionList = new List<Vector3>();
+
+        foreach (GridPosition pathGridPostion in pathGridPositionList)
+        {
+            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPostion));
+        }
 
         OnStartMoving?.Invoke(this, EventArgs.Empty);
 
@@ -79,6 +89,25 @@ public class MoveAction : BaseAction
                     // grid position already occupied with another unit
                     continue;
                 }
+
+                if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPostion))
+                {
+                    continue;
+                }
+
+                if (!Pathfinding.Instance.HasPath(unitGridPosition, testGridPostion))
+                {
+                    continue;
+                }
+
+                int pathfindingDistanceMultiplier = 10;
+                if (Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPostion) 
+                                              > maxMoveDistance * pathfindingDistanceMultiplier)
+                {
+                    // path length is too long
+                    continue;
+                }
+
                 validGridPositionList.Add(testGridPostion);
             }
         }

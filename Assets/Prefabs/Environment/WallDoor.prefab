@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8100413126035672752}
   - component: {fileID: 8091642180048924212}
   - component: {fileID: 8141267460298323302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WallDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MeshCollider:
   m_GameObject: {fileID: 8078175444041238634}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
