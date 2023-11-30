@@ -165,16 +165,20 @@ public class GridSystemVisual : MonoBehaviour
 
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
-
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetMaxShootDistance(), GridVisualType.Redsoft);
                 break;
+
             case GrenadeAcion grenadeAction:
                 gridVisualType = GridVisualType.Yellow;
                 break;
+
             case SwordAction swordAction:
                 gridVisualType = GridVisualType.Red;
-
                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.GetMaxSwordDistance(), GridVisualType.Redsoft);
+                break;
+
+            case InteractAction interactAction:
+                gridVisualType = GridVisualType.Blue;
                 break;
 
         }

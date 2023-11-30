@@ -317,9 +317,10 @@ GameObject:
   - component: {fileID: 8736837877998981065}
   - component: {fileID: 1479441667322563781}
   - component: {fileID: 4034918656975522788}
+  - component: {fileID: 4078721848075873151}
+  - component: {fileID: 8956043972993562914}
   - component: {fileID: 3606669552519690912}
   - component: {fileID: 8055008099717381027}
-  - component: {fileID: 8956043972993562914}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -436,6 +437,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7d1e6bfa3372b4f84a23f5b9e91d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4078721848075873151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505177002788889997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cec1c93247dfc649a055a29bee5d784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8956043972993562914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505177002788889997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd011a77b118b9a40953e2859ec4f29f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragdollPrefab: {fileID: 2505177002788889996, guid: 66f1d8235af94cb4bb93ab81dfd2adce, type: 3}
+  originalRootBone: {fileID: 2510064006696264376}
 --- !u!114 &3606669552519690912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,20 +493,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
---- !u!114 &8956043972993562914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2505177002788889997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd011a77b118b9a40953e2859ec4f29f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ragdollPrefab: {fileID: 2505177002788889996, guid: 66f1d8235af94cb4bb93ab81dfd2adce, type: 3}
-  originalRootBone: {fileID: 2510064006696264376}
 --- !u!1 &3265585021507950823
 GameObject:
   m_ObjectHideFlags: 0

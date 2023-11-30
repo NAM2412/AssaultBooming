@@ -7,6 +7,7 @@ public class GridObject
     private GridSystem<GridObject> gridSystem;
     private GridPosition gridPosition;
     private List<Unit> unitList;
+    private Door door;
 
     public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
     {
@@ -25,6 +26,7 @@ public class GridObject
         return gridPosition.ToString() + "\n" + unitString;
     }
 
+    #region Unit methods
     public void AddUnit(Unit unit)
     {
         unitList.Add(unit);
@@ -34,15 +36,16 @@ public class GridObject
     {
         unitList.Remove(unit);
     }
-
-    public List<Unit> GetUnitList()
-    {
-        return this.unitList;
-    }
-
     public bool HasAnyUnit()
     {
         return unitList.Count > 0;
+    }
+    #endregion
+
+    #region Get && Set methods
+    public List<Unit> GetUnitList()
+    {
+        return this.unitList;
     }
 
     public Unit GetUnit()
@@ -53,6 +56,17 @@ public class GridObject
         }
         else return null;
     }
+
+    public Door GetDoor()
+    {
+        return door;
+    }
+
+    public void SetDoor(Door door)
+    {
+        this.door = door;
+    }
+    #endregion
 }
 
 
