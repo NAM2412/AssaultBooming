@@ -93,16 +93,16 @@ public class LevelGrid : MonoBehaviour
     }
     #endregion
 
-    public Door GetDoorAtGridPostion(GridPosition gridPosition)
+    public IInteractable GetInteractableAtGridPostion(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        return gridObject.GetDoor();
+        return gridObject.GetInteractable();
     }
 
-    public void SetDoorAtGridPostion(GridPosition gridPosition, Door door)
+    public void SetInteractableAtGridPostion(GridPosition gridPosition, IInteractable interactable)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        gridObject.SetDoor(door);
+        gridObject.SetInteractable(interactable);
     }
 }
 
