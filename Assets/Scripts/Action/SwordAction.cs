@@ -133,6 +133,10 @@ public class SwordAction : BaseAction
 
         ActionStart(onActionComplete);
     }
+    public override int GetActionPointsCost()
+    {
+        return 2;
+    }
     #endregion
 
     public int GetMaxSwordDistance()

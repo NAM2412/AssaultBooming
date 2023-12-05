@@ -69,6 +69,10 @@ public class GrenadeAcion : BaseAction
 
         ActionStart(onActionComplete);
     }
+    public override int GetActionPointsCost()
+    {
+        return 2;
+    }
     #endregion
 
     private void ObGrenadeBehaviourComplete()
