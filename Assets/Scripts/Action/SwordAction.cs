@@ -92,7 +92,7 @@ public class SwordAction : BaseAction
         {
             for (int z = -maxSwordDistance; z <= maxSwordDistance; z++)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition offsetGridPosition = new GridPosition(x, z, 0);
                 GridPosition testGridPostion = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPostion))

@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
-        HandleZoom();
+        HandleZoom(); 
 
     }
 
